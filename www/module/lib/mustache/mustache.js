@@ -1,0 +1,1 @@
+define(["lib/mustache/mustache.1.1.0"],function(e){return e});

@@ -1,0 +1,82 @@
+@import '../layout/layout.less';
+
+
+.body {
+  .searchbar {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 60px;
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    background: #f6f6f6;
+    input[type="search"] {
+      display: block;
+      margin: 0 auto;
+      padding: 0 4%;
+      border: 1px solid #ccc;
+      height: 38px;
+      width: 84%;
+      height: 36px;
+      line-height: 1.5;
+      font-size: 14px;
+      border-radius: 36px;
+    }
+    em {
+      position: absolute;
+      right: 8%;
+      bottom: 19px;
+      line-height: 1;
+      font-size: 20px;
+      color: #ccc;
+    }
+  }
+
+  .result-list {
+    margin: 60 + 59px 0 0;
+    dt {
+      position: relative;
+      overflow: hidden;
+      margin: -24px 0 0;
+      height: 18px;
+      padding: 5px 0 1px;
+      text-align: center;
+      color: #666;
+      background: #f3f3f3;
+      .cmn-transition(0.2s linear);
+      &.expand {
+        margin-top: 0;
+      }
+    }
+    dd {
+      dl {
+        overflow-y: auto;
+        dd {
+          .cmn-clearfix;
+          padding: 10px 4% 8px;
+          border-bottom: 1px solid #ddd;
+          background: #fcfcfc;
+          &:last-child {
+            border-bottom: 0;
+          }
+          .song_content {
+            float: left;
+            p{
+              &:nth-child(1) {
+                margin: 0 0 2px;
+                font-size: 14px;
+              }
+              &:nth-child(2) {
+                color: #999;
+              }
+            }
+          }
+          .song_control {
+            float: right;
+          }
+        }
+      }
+    }
+  }
+}
