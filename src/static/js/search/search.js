@@ -1,5 +1,10 @@
 document.addEventListener('deviceready', function() {
   require(['lib-zepto', 'lib-mustache'], function($, Mustache) {
+    window.config = {
+      dir: 'himalayan',
+      path: ''
+    };
+
     var tpl = {
       resultList: (function() {
         var _tpl;
@@ -34,8 +39,38 @@ document.addEventListener('deviceready', function() {
       }
     }
 
+    function download(url) {
+      var filePath = window.config.path + url.replace(/[^\\\/]*[\\\/]+/g, ''),
+        url = encodeURI(url),
+        fileTransfer = new FileTransfer();
+
+      console.log('正在下载中，请等待...');
+      
+      fileTransfer.download(url, filePath,
+        function(entry) {
+          console.log('下载成功！请在' + entry.fullPath + '目录中查看');
+        },
+        function(error) {
+          console.log('下载失败！' + error.source);
+        });
+    }
 
     // Init
+    // 初始化存储目录
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+      fileSystem.root.getDirectory(window.config.dir, {
+        create: true,
+        exclusive: false
+      }, function(entry) {
+        window.config.path = entry.toURL();
+      }, function() {
+        console.log('创建文件夹失败');
+      });
+    }, function() {
+      console.log('创建文件夹失败');
+    });
+
+    // 初始化 list 高度
     $('.result-list dl').height($(window).height() - 60 - 59 - 24);
 
 

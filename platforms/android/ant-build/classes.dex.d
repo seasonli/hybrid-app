@@ -51,4 +51,17 @@
 /Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/file/LocalFilesystemURL.class \
 /Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/file/NoModificationAllowedException.class \
 /Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/file/TypeMismatchException.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileProgressResult.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$1.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$2.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$3.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$4.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$5.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$ExposedGZIPInputStream.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$RequestContext.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$SimpleTrackingInputStream.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$TrackingGZIPInputStream.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$TrackingInputStream.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer.class \
+/Users/meri/himalayan/hybrid-app/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileUploadResult.class \
 /Users/meri/himalayan/hybrid-app/platforms/android/ant-build/dexedLibs/classes-3003e53f9b6a7d3dc4e173682dd514fd.jar \

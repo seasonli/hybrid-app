@@ -13,11 +13,25 @@
  * @Version 1.5 | 2015-02-24 | SeasonLi    // Optimize tasks
  * @Version 1.6 | 2015-03-08 | SeasonLi    // Optimize match scripts
  *                                         // Optimize release task
+ * @Version 1.7 | 2015-03-16 | SeasonLi    // Use tpl widget compile
  **/
 
-var fs = require("fs"),
+var path = require('path'),
+  fs = require("fs"),
   glob = require('glob'),
   cheerio = require('cheerio');
+
+
+function mkdirsSync(dirname, mode) {
+  if (fs.existsSync(dirname)) {
+    return true;
+  } else {
+    if (mkdirsSync(path.dirname(dirname), mode)) {
+      fs.mkdirSync(dirname, mode);
+      return true;
+    }
+  }
+}
 
 
 module.exports = function(grunt) {
@@ -42,7 +56,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '',
-          src: ['{page,static,module}/**/*.{html,js,gif,png,jpg,jpeg,gif,eot,svg,ttf,woff,mst}'],
+          src: ['{static,module}/**/*.{html,js,gif,png,jpg,jpeg,gif,eot,svg,ttf,woff,mst}'],
           dest: '' // Dynamic config
         }]
       }
@@ -136,6 +150,44 @@ module.exports = function(grunt) {
     grunt.config.set('imagemin.common.files.0.cwd', dest);
     grunt.config.set('imagemin.common.files.0.dest', dest);
     grunt.config.set('requirejs.common.options.dir', dest + 'module/');
+    // Widget content list
+    var wgtContentList = (function() {
+      var wgtContentList = {},
+        wgtFileRegExp = new RegExp(/\.html$/);
+      (function readDir(dir) {
+        var items = fs.readdirSync(dir);
+        for (var i in items) {
+          var path = dir + '/' + items[i],
+            stat = fs.lstatSync(path);
+          if (stat.isDirectory()) {
+            readDir(path);
+          } else {
+            if (wgtFileRegExp.test(items[i])) {
+              var content = fs.readFileSync(path),
+                $ = cheerio.load(content),
+                $scriptList = $('script[type="text/javascript"]'),
+                $cssList = $('link[rel="stylesheet"]');
+              $cssList.remove();
+              $scriptList.remove();
+              var cssList = [],
+                scriptList = [];
+              $cssList.each(function() {
+                cssList.push($(this).attr('href'));
+              });
+              $scriptList.each(function() {
+                scriptList.push($(this).attr('src'));
+              });
+              wgtContentList[path.replace(/widget\//, '')] = {
+                html: $.html(),
+                cssList: cssList,
+                scriptList: scriptList
+              }
+            }
+          }
+        }
+      })('widget');
+      return wgtContentList;
+    })();
     // Template file list
     var tplFileList = (function getTplFileList() {
       var tplFileRegExp = new RegExp(/\.html$/),
@@ -149,11 +201,37 @@ module.exports = function(grunt) {
             readDir(path);
           } else {
             if (tplFileRegExp.test(items[i])) {
+              var content = fs.readFileSync(path, 'utf-8');
+              var placeholderList = content.match(/\{\{widget\:\S+\}\}/g);
+              $ = cheerio.load(content);
+              for (var i in placeholderList) {
+                var widgetName = placeholderList[i].match(/\{\{widget:(\S+)\}\}/)[1];
+                content = $.html().replace('{{widget:' + widgetName + '}}', wgtContentList[widgetName].html);
+                $ = cheerio.load(content);
+                for (var j in wgtContentList[widgetName].cssList) {
+                  var $css = $('<link>').attr({
+                    'rel': 'stylesheet',
+                    'type': 'text/css',
+                    'href': wgtContentList[widgetName].cssList[j]
+                  });
+                  $('head').append($css);
+                }
+                console.log($.html());
+                for (var j in wgtContentList[widgetName].scriptList) {
+                  var $script = $('<script>').attr({
+                    'type': 'text/javascript',
+                    'src': wgtContentList[widgetName].scriptList[j]
+                  });
+                  $('body').append($css);
+                }
+              }
+              mkdirsSync(dest + path.replace(/\/\w+.html$/, ''));
+              fs.writeFileSync(dest + path, $.html());
               tplFileList.push(path);
             }
           }
         }
-      })('./page');
+      })('page');
       return tplFileList;
     })();
     // Script list used in templates
@@ -197,6 +275,7 @@ module.exports = function(grunt) {
       }
       return staticDirList;
     })();
+
     grunt.config.set('filerev.common.files.0.src', staticFileList);
     grunt.config.set('usemin.options.assetsDirs', staticDirList);
     grunt.config.set('usemin.common.files.0.src', dest + 'page/**/*.html')
@@ -234,14 +313,14 @@ module.exports = function(grunt) {
     grunt.task.run('_copy');
     grunt.task.run('_less');
     grunt.task.run('_imagemin');
-    grunt.task.run('_requirejs');
-    grunt.task.run('_filerev');
-    grunt.task.run('_usemin');
+    // grunt.task.run('_requirejs');
+    // grunt.task.run('_filerev');
+    // grunt.task.run('_usemin');
   });
 
   // Dev
   grunt.task.registerTask('dev', function() {
-    var dest = grunt.config.get('dpl').dev || '_dev/',
+    var dest = '_dev/',
       watch = grunt.option('watch');
     grunt.config.set('_config.dest', dest);
 
@@ -252,9 +331,9 @@ module.exports = function(grunt) {
       grunt.task.run('_copy');
       grunt.task.run('_less');
       grunt.task.run('_imagemin');
-      grunt.task.run('_requirejs');
-      grunt.task.run('_filerev');
-      grunt.task.run('_usemin');
+      // grunt.task.run('_requirejs');
+      // grunt.task.run('_filerev');
+      // grunt.task.run('_usemin');
     }
   });
 };

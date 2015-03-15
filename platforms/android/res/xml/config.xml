@@ -5,6 +5,9 @@
         <param name="android-package" value="org.apache.cordova.file.FileUtils" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
     <name>喜马拉雅</name>
     <description />
     <author email="season.chopsticks@gmail.com">Season Li</author>

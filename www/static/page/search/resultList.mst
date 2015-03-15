@@ -1,9 +1,0 @@
-{{#data.songs}}
-  <dd>
-    <div class="song_content">
-      <p>{{song}}</p>
-      <p>{{artist}} - {{album}}</p>
-    </div>
-    <div class="song_control"></div>
-  </dd>
-{{/data.songs}}
