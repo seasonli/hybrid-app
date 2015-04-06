@@ -216,13 +216,12 @@ module.exports = function(grunt) {
                   });
                   $('head').append($css);
                 }
-                console.log($.html());
                 for (var j in wgtContentList[widgetName].scriptList) {
                   var $script = $('<script>').attr({
                     'type': 'text/javascript',
                     'src': wgtContentList[widgetName].scriptList[j]
                   });
-                  $('body').append($css);
+                  $('body').append($script);
                 }
               }
               mkdirsSync(dest + path.replace(/\/\w+.html$/, ''));

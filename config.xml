@@ -3,11 +3,8 @@
   <name>喜马拉雅</name>
   <description></description>
   <author email="season.chopsticks@gmail.com">Season Li</author>
-  <content src="page/search/search.html" />
+  <content src="page/base/base.html" />
   <access origin="*" />
   <preference name="SplashScreen" value="splash" />
   <preference name="SplashScreenDelay" value="30000" />
-  <gap:config-file platform="android" parent="/manifest">
-    <application android:debuggable="true" />
-  </gap:config-file>
 </widget>

@@ -1,0 +1,39 @@
+@import '../layout/layout.less';
+
+
+.cmn-font-icon('./resource/topnav'; layout-icons;
+  discovery, search, music, setting);
+
+.topnav {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  font-size: 0;
+  a{
+    .cmn-inline-block;
+    padding: 12px 0 4px;
+    width: 25%;
+    height: 44px;
+    line-height: 20px;
+    font-size: 14px;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    background: #555;
+    &:hover {
+      color: #fff;
+    }
+    &.cur {
+      background: #666;
+    }
+    em {
+      display: block;
+      margin: 0 0 4px;
+      line-height: 1;
+      font-size: 24px;
+      text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
